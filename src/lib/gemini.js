@@ -2,6 +2,9 @@ import { GoogleGenerativeAI } from "@google/generative-ai";
 
 // Initialize the API
 const getGenAI = () => {
+    // Safety check for non-Vite environments (e.g. test scripts)
+    if (typeof import.meta === 'undefined' || !import.meta.env) return null;
+
     const apiKey = import.meta.env.VITE_GEMINI_API_KEY;
     if (!apiKey) {
         console.warn("API Key not found. Running in SIMULATION MODE.");
@@ -11,20 +14,52 @@ const getGenAI = () => {
 };
 
 export const generateBrandIdentity = async (businessName, sector, description, style, vibe) => {
-    const genAI = getGenAI();
+    // FORCE SIMULATION MODE (Temporarily disabled real API)
+    const forceSimulation = true;
 
-    // SIMULATION MODE
-    if (!genAI) {
-        await new Promise(resolve => setTimeout(resolve, 2000)); // Fake delay
+    if (forceSimulation) {
+        await new Promise(resolve => setTimeout(resolve, 1500)); // Fake delay
+
+        // Logos disponibles en public/logos
+        const localLogos = [
+            "/logos/Logo1.svg",
+            "/logos/Logo2.svg",
+            "/logos/Logo3.svg",
+            "/logos/Logo4.svg",
+            "/logos/Logo5.svg"
+        ];
+
+        // Seleccionar uno al azar
+        const randomLogo = localLogos[Math.floor(Math.random() * localLogos.length)];
+
         return {
             colors: ["#2A9D8F", "#E9C46A", "#264653"],
             fonts: {
                 heading: "Playfair Display",
                 body: "Lato"
             },
-            logo_path: "/logos/Logo1.svg", // Use a local logo for simulation
+            logo_path: randomLogo,
             logo_svg: null,
-            explanation: `[SIMULACIÓN] Diseño generado localmente para ${businessName}. Estilo ${style} con vibración ${vibe}.`
+            explanation: `Diseño sugerido: Estilo ${style}.`
+        };
+    }
+
+    const genAI = getGenAI();
+
+    // SIMULATION MODE (Fallback if no API key)
+    if (!genAI) {
+        // Fallback to the same simulation logic if needed, or keeping the old one for reference
+        // but since we forced it above, this is just for safety if forceSimulation is turned off later
+        await new Promise(resolve => setTimeout(resolve, 2000));
+        return {
+            colors: ["#2A9D8F", "#E9C46A", "#264653"],
+            fonts: {
+                heading: "Playfair Display",
+                body: "Lato"
+            },
+            logo_path: "/logos/Logo1.svg",
+            logo_svg: null,
+            explanation: `[SIMULACIÓN] Diseño generado localmente (Fallback).`
         };
     }
 

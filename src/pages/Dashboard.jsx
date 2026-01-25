@@ -7,6 +7,7 @@ import html2canvas from 'html2canvas';
 import { useLocation } from 'react-router-dom';
 
 const Dashboard = () => {
+    const location = useLocation();
     const [selectedDesign, setSelectedDesign] = useState(0);
 
     const designs = [
@@ -101,8 +102,6 @@ const Dashboard = () => {
             </div>
         );
     }
-
-    const location = useLocation();
 
     // Inject AI Design if available
     if (location.state?.generatedDesign) {
@@ -256,7 +255,7 @@ const Dashboard = () => {
 
             {/* Top Bar for Selection */}
             <div className="bg-white border-b border-border-subtle sticky top-0 z-10 px-4 py-3 overflow-x-auto no-scrollbar">
-                <div className="flex space-x-4 min-w-max mx-auto max-w-5xl">
+                <div className="flex justify-center space-x-4 min-w-max mx-auto max-w-5xl">
                     {designs.map((design, idx) => (
                         <button
                             key={design.id}
