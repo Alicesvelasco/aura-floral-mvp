@@ -120,8 +120,8 @@ const Dashboard = () => {
                     body: aiDesign.fonts.body,
                     headingClass: "", // Dynamic mappings handled below
                 },
-                logoSvg: aiDesign.logo_svg,
-                logoPath: null, // No path, use SVG
+                logoSvg: aiDesign.logo_svg || null,
+                logoPath: aiDesign.logo_path || null, // Allow AI to return a path
                 description: aiDesign.explanation || "Diseño único generado por IA."
             });
         }

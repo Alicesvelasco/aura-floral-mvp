@@ -22,7 +22,8 @@ export const generateBrandIdentity = async (businessName, sector, description, s
                 heading: "Playfair Display",
                 body: "Lato"
             },
-            logo_svg: `<svg viewBox='0 0 500 500' xmlns='http://www.w3.org/2000/svg'><path d='M250 50 L300 150 L400 150 L320 220 L350 320 L250 260 L150 320 L180 220 L100 150 L200 150 Z' fill='#2A9D8F' opacity='0.8'/><circle cx='250' cy='250' r='100' stroke='#264653' stroke-width='5' fill='none'/></svg>`,
+            logo_path: "/logos/Logo1.svg", // Use a local logo for simulation
+            logo_svg: null,
             explanation: `[SIMULACIÓN] Diseño generado localmente para ${businessName}. Estilo ${style} con vibración ${vibe}.`
         };
     }
