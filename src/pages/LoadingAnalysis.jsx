@@ -57,18 +57,18 @@ const LoadingAnalysis = () => {
         fetchData();
 
         const messages = [
-            "Conectando con Gemini AI...",
-            "Analizando sector botánico...",
-            "Extrayendo paleta de colores...",
-            "Diseñando tipografía...",
-            "Generando isotipo vectorial..."
+            "Analizando la información de tu marca...",
+            "Explorando combinaciones de colores...",
+            "Diseñando logotipos únicos...",
+            "Aplicando identidad visual...",
+            "Finalizando detalles..."
         ];
 
         let currentMessage = 0;
         const messageInterval = setInterval(() => {
             currentMessage = (currentMessage + 1) % messages.length;
             setStatus(messages[currentMessage]);
-        }, 1200);
+        }, 1500);
 
         // Progress visual simulation
         const interval = setInterval(() => {
@@ -87,15 +87,15 @@ const LoadingAnalysis = () => {
                 <motion.div
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
-                    className="space-y-4"
+                    className="space-y-6"
                 >
-                    <div className="h-16 w-16 mx-auto border-4 border-accent-primary border-t-transparent rounded-full animate-spin" />
-                    <h2 className="text-xl font-serif text-text-primary">{status}</h2>
+                    <div className="h-16 w-16 mx-auto border-4 border-primary border-t-transparent rounded-full animate-spin" />
+                    <h2 className="text-xl font-bold text-text-primary">{status}</h2>
                 </motion.div>
 
                 <div className="h-2 w-full bg-border-subtle rounded-full overflow-hidden">
                     <motion.div
-                        className="h-full bg-accent-primary"
+                        className="h-full bg-primary"
                         style={{ width: `${progress}%` }}
                     />
                 </div>

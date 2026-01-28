@@ -614,8 +614,7 @@ const Dashboard = () => {
                                     )}
                                 </AnimatePresence>
                                 <Button
-                                    className="rounded-full w-12 h-12 p-0 shadow-lg hover:scale-105 transition-transform"
-                                    style={{ backgroundColor: current.colors[0], color: '#fff' }}
+                                    className="rounded-full w-12 h-12 p-0 shadow-lg hover:scale-105 transition-transform bg-white text-text-primary border border-border-subtle hover:bg-surface-secondary flex items-center justify-center"
                                     onClick={() => document.getElementById('share-btn')?.click()}
                                     onMouseEnter={() => setHoveredFloatBtn('share')}
                                     onMouseLeave={() => setHoveredFloatBtn(null)}
@@ -639,8 +638,7 @@ const Dashboard = () => {
                                     )}
                                 </AnimatePresence>
                                 <Button
-                                    className="rounded-full w-12 h-12 p-0 shadow-lg hover:scale-105 transition-transform"
-                                    style={{ backgroundColor: '#fff', color: current.colors[0], border: `1px solid ${current.colors[0]}` }}
+                                    className="rounded-full w-12 h-12 p-0 shadow-lg hover:scale-105 transition-transform bg-primary text-white hover:bg-primary-hover flex items-center justify-center"
                                     onClick={() => document.getElementById('download-btn')?.click()}
                                     onMouseEnter={() => setHoveredFloatBtn('download')}
                                     onMouseLeave={() => setHoveredFloatBtn(null)}

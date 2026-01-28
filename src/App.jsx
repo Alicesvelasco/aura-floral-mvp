@@ -9,8 +9,7 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<Landing />} />
-        <Route path="/create" element={<InputForm />} />
+        <Route path="/" element={<InputForm />} />
         <Route path="/loading" element={<LoadingAnalysis />} />
         <Route path="/dashboard" element={<Dashboard />} />
       </Routes>
