@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { motion } from 'framer-motion';
+import React, { useState, useRef, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { Button } from '../components/ui/button';
 import { Download, Share2, Briefcase, Calendar, ShoppingBag, MessageCircle, Check } from 'lucide-react';
 import { cn } from '../lib/utils';
@@ -11,6 +11,28 @@ const Dashboard = () => {
     const location = useLocation();
     const [selectedDesign, setSelectedDesign] = useState(0);
     const [error, setError] = useState(location.state?.error || null);
+    const [showFloating, setShowFloating] = useState(true);
+    const [hoveredFloatBtn, setHoveredFloatBtn] = useState(null);
+    const buttonsRef = useRef(null);
+
+    useEffect(() => {
+        const observer = new IntersectionObserver(
+            ([entry]) => {
+                setShowFloating(!entry.isIntersecting);
+            },
+            { threshold: 0.1 }
+        );
+
+        if (buttonsRef.current) {
+            observer.observe(buttonsRef.current);
+        }
+
+        return () => {
+            if (buttonsRef.current) {
+                observer.unobserve(buttonsRef.current);
+            }
+        };
+    }, []);
 
     if (error) {
         return (
@@ -524,6 +546,7 @@ const Dashboard = () => {
                     </motion.section>
 
                     <motion.div
+                        ref={buttonsRef}
                         className="flex justify-center space-x-4 pt-8 pb-12"
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
@@ -536,6 +559,7 @@ const Dashboard = () => {
                             return (
                                 <>
                                     <Button
+                                        id="share-btn"
                                         className="shadow-sm transition-all hover:opacity-75 border"
                                         style={{
                                             backgroundColor: 'transparent',
@@ -548,6 +572,7 @@ const Dashboard = () => {
                                         Compartir
                                     </Button>
                                     <Button
+                                        id="download-btn"
                                         className="shadow-sm transition-all hover:opacity-75 border"
                                         style={{
                                             backgroundColor: 'transparent',
@@ -565,6 +590,67 @@ const Dashboard = () => {
                     </motion.div>
 
                 </div>
+
+                <AnimatePresence>
+                    {showFloating && (
+                        <motion.div
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0, y: 20 }}
+                            className="fixed bottom-6 right-6 flex flex-col space-y-3 z-50 items-end"
+                        >
+                            {/* Share Button with Tooltip */}
+                            <div className="relative flex items-center">
+                                <AnimatePresence>
+                                    {hoveredFloatBtn === 'share' && (
+                                        <motion.div
+                                            initial={{ opacity: 0, x: 10 }}
+                                            animate={{ opacity: 1, x: 0 }}
+                                            exit={{ opacity: 0, x: 10 }}
+                                            className="absolute right-full mr-3 bg-black/80 text-white text-xs py-1.5 px-3 rounded-lg backdrop-blur-md shadow-sm whitespace-nowrap pointer-events-none"
+                                        >
+                                            Compartir proyecto
+                                        </motion.div>
+                                    )}
+                                </AnimatePresence>
+                                <Button
+                                    className="rounded-full w-12 h-12 p-0 shadow-lg hover:scale-105 transition-transform"
+                                    style={{ backgroundColor: current.colors[0], color: '#fff' }}
+                                    onClick={() => document.getElementById('share-btn')?.click()}
+                                    onMouseEnter={() => setHoveredFloatBtn('share')}
+                                    onMouseLeave={() => setHoveredFloatBtn(null)}
+                                >
+                                    <Share2 className="w-5 h-5" />
+                                </Button>
+                            </div>
+
+                            {/* Download Button with Tooltip */}
+                            <div className="relative flex items-center">
+                                <AnimatePresence>
+                                    {hoveredFloatBtn === 'download' && (
+                                        <motion.div
+                                            initial={{ opacity: 0, x: 10 }}
+                                            animate={{ opacity: 1, x: 0 }}
+                                            exit={{ opacity: 0, x: 10 }}
+                                            className="absolute right-full mr-3 bg-black/80 text-white text-xs py-1.5 px-3 rounded-lg backdrop-blur-md shadow-sm whitespace-nowrap pointer-events-none"
+                                        >
+                                            Descargar Branding Kit
+                                        </motion.div>
+                                    )}
+                                </AnimatePresence>
+                                <Button
+                                    className="rounded-full w-12 h-12 p-0 shadow-lg hover:scale-105 transition-transform"
+                                    style={{ backgroundColor: '#fff', color: current.colors[0], border: `1px solid ${current.colors[0]}` }}
+                                    onClick={() => document.getElementById('download-btn')?.click()}
+                                    onMouseEnter={() => setHoveredFloatBtn('download')}
+                                    onMouseLeave={() => setHoveredFloatBtn(null)}
+                                >
+                                    <Download className="w-5 h-5" />
+                                </Button>
+                            </div>
+                        </motion.div>
+                    )}
+                </AnimatePresence>
             </div>
         </div>
     );
