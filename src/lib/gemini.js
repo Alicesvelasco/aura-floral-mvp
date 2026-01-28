@@ -22,11 +22,11 @@ export const generateBrandIdentity = async (businessName, sector, description, s
 
         // Logos disponibles en public/logos
         const localLogos = [
-            "/logos/Logo1.svg",
-            "/logos/Logo2.svg",
-            "/logos/Logo3.svg",
-            "/logos/Logo4.svg",
-            "/logos/Logo5.svg"
+            "/logos/sage-classe.svg",
+            "/logos/rustic.svg",
+            "/logos/moder.svg",
+            "/logos/minimal.svg",
+            "/logos/luxury.svg"
         ];
 
         // Seleccionar uno al azar

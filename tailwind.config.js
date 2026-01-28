@@ -31,6 +31,8 @@ export default {
                 nunito: ['"Nunito"', 'sans-serif'],
                 cinzel: ['"Cinzel"', 'serif'],
                 raleway: ['"Raleway"', 'sans-serif'],
+                'source-serif': ['"Source Serif 4"', 'serif'],
+                inter: ['"Inter"', 'sans-serif'],
             },
             borderRadius: {
                 'lg': 'var(--radius)',

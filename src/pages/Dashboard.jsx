@@ -1,94 +1,15 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Button } from '../components/ui/button';
-import { Download, Share2, Check } from 'lucide-react';
+import { Download, Share2, Briefcase, Calendar, ShoppingBag, MessageCircle, Check } from 'lucide-react';
 import { cn } from '../lib/utils';
 import html2canvas from 'html2canvas';
+import Logo from '../components/Logo';
 import { useLocation } from 'react-router-dom';
 
 const Dashboard = () => {
     const location = useLocation();
     const [selectedDesign, setSelectedDesign] = useState(0);
-
-    const designs = [
-        {
-            id: 1,
-            name: "Sage Classic",
-            bgClass: "bg-[#F9F7F2]",
-            textClass: "text-[#1F1F1F]",
-            colors: ["#8FA382", "#F2D5D5", "#333333"],
-            fonts: {
-                heading: "Playfair Display",
-                body: "Montserrat",
-                headingClass: "font-serif",
-                bodyClass: "font-sans"
-            },
-            logoPath: "/logos/Logo1.svg",
-            description: "Sophisticated and calm."
-        },
-        {
-            id: 2,
-            name: "Rustic Earth",
-            bgClass: "bg-[#F5F1E8]",
-            textClass: "text-[#2C1810]",
-            colors: ["#A65D57", "#D4C4B7", "#594034"],
-            fonts: {
-                heading: "Cormorant Garamond",
-                body: "Lato",
-                headingClass: "font-cormorant",
-                bodyClass: "font-lato"
-            },
-            logoPath: "/logos/Logo2.svg",
-            description: "Organic and grounded."
-        },
-        {
-            id: 3,
-            name: "Modern Bold",
-            bgClass: "bg-white",
-            textClass: "text-[#0F172A]",
-            colors: ["#1E40AF", "#F59E0B", "#F8FAFC"],
-            fonts: {
-                heading: "Oswald",
-                body: "Open Sans",
-                headingClass: "font-oswald",
-                bodyClass: "font-opensans"
-            },
-            logoPath: "/logos/Logo3.svg",
-            description: "Strong and contemporary."
-        },
-        {
-            id: 4,
-            name: "Minimal Fresh",
-            bgClass: "bg-[#F0FDF4]",
-            textClass: "text-[#111827]",
-            colors: ["#14B8A6", "#E5E7EB", "#374151"],
-            fonts: {
-                heading: "Quicksand",
-                body: "Nunito",
-                headingClass: "font-quicksand",
-                bodyClass: "font-nunito"
-            },
-            logoPath: "/logos/Logo4.svg",
-            description: "Clean and approachable."
-        },
-        {
-            id: 5,
-            name: "Luxury Dark",
-            bgClass: "bg-[#0C0A09]",
-            textClass: "text-[#FAFAF9]",
-            colors: ["#000000", "#D4D4D8", "#FFFFFF"],
-            fonts: {
-                heading: "Cinzel",
-                body: "Raleway",
-                headingClass: "font-cinzel",
-                bodyClass: "font-raleway"
-            },
-            logoPath: "/logos/Logo5.svg",
-            description: "Exclusive and timeless."
-        }
-    ];
-
-    // Check for error from LoadingAnalysis
     const [error, setError] = useState(location.state?.error || null);
 
     if (error) {
@@ -103,28 +24,133 @@ const Dashboard = () => {
         );
     }
 
-    // Inject AI Design if available
-    if (location.state?.generatedDesign) {
-        const aiDesign = location.state.generatedDesign;
-        // Check if already added to avoid duplicates if re-rendering (simple check)
-        if (designs[0].id !== 'ai') {
-            designs.unshift({
-                id: 'ai',
-                name: "AI Generated",
-                bgClass: "bg-[#F9F7F2]", // Default base
-                textClass: "text-[#1F1F1F]",
-                colors: aiDesign.colors,
-                fonts: {
-                    heading: aiDesign.fonts.heading,
-                    body: aiDesign.fonts.body,
-                    headingClass: "", // Dynamic mappings handled below
-                },
-                logoSvg: aiDesign.logo_svg || null,
-                logoPath: aiDesign.logo_path || null, // Allow AI to return a path
-                description: aiDesign.explanation || "Diseño único generado por IA."
-            });
+    const baseDesigns = [
+        {
+            id: 1,
+            name: "Sage Classic",
+            bgClass: "bg-[#F9F7F2]",
+            textClass: "text-[#1F1F1F]",
+            colors: ["#8FA382", "#F2D5D5", "#333333"],
+            fonts: {
+                heading: "Playfair Display",
+                body: "Montserrat",
+                headingClass: "font-serif",
+                bodyClass: "font-sans"
+            },
+            logoPath: "/logos/sage-classe.svg",
+            description: "Sophisticated and calm.",
+            feedImages: [
+                "/Instagram/Classic/classic-post1.1.jpeg",
+                "/Instagram/Classic/classic-post2.jpeg",
+                "/Instagram/Classic/classic-post3.jpeg",
+                "/Instagram/Classic/flores-rosa-1.jpg",
+                "/Instagram/Classic/flores-rosa-2.jpg",
+                "/Instagram/Classic/flores-rosa-3.jpg",
+                "/Instagram/Classic/classic-post1.1.jpeg",
+                "/Instagram/Classic/flores-rosa-1.jpg"
+            ]
+        },
+        {
+            id: 2,
+            name: "Rustic Earth",
+            bgClass: "bg-[#F5F1E8]",
+            textClass: "text-[#2C1810]",
+            colors: ["#A65D57", "#D4C4B7", "#594034"],
+            fonts: {
+                heading: "Cormorant Garamond",
+                body: "Lato",
+                headingClass: "font-cormorant",
+                bodyClass: "font-lato"
+            },
+            logoPath: "/logos/rustic.svg",
+            description: "Organic and grounded.",
+            feedImages: [
+                "/Instagram/Rustic/flore-mujer-1.jpg",
+                "/Instagram/Rustic/flore-mujer-2.jpg",
+                "/Instagram/Rustic/flores marron.jpg",
+                "/Instagram/Rustic/flores-amarillo-2.jpg",
+                "/Instagram/Rustic/flores-blancas-1.jpg",
+                "/Instagram/Rustic/flores-blancas-4.jpg",
+                "/Instagram/Rustic/flores-blancas-5.jpg",
+                "/Instagram/Rustic/flores-marron-1.jpg"
+            ]
+        },
+        {
+            id: 3,
+            name: "Modern Bold",
+            bgClass: "bg-white",
+            textClass: "text-[#0F172A]",
+            colors: ["#1E40AF", "#F59E0B", "#F8FAFC"],
+            fonts: {
+                heading: "Oswald",
+                body: "Open Sans",
+                headingClass: "font-oswald",
+                bodyClass: "font-opensans"
+            },
+            logoPath: "/logos/moder.svg",
+            description: "Strong and contemporary.",
+            feedImages: [
+                "/Instagram/modern/flore-modern-1.jpg",
+                "/Instagram/modern/flore-modern-2.jpg",
+                "/Instagram/modern/flore-modern-3.jpg",
+                "/Instagram/modern/flore-modern-4.jpg",
+                "/Instagram/modern/flore-modern-5.jpg",
+                "/Instagram/modern/flore-modern-6.jpg",
+                "/Instagram/modern/flore-modern-7.jpg",
+                "/Instagram/modern/flore-modern-8.jpg"
+            ]
+        },
+        {
+            id: 4,
+            name: "Minimal Fresh",
+            bgClass: "bg-[#F0FDF4]",
+            textClass: "text-[#111827]",
+            colors: ["#14B8A6", "#E5E7EB", "#374151"],
+            fonts: {
+                heading: "Quicksand",
+                body: "Nunito",
+                headingClass: "font-quicksand",
+                bodyClass: "font-nunito"
+            },
+            logoPath: "/logos/minimal.svg",
+            description: "Clean and approachable.",
+            feedImages: [
+                "/Instagram/Minimal/flore-verde-1.jpg",
+                "/Instagram/Minimal/flore-verde-2.jpg",
+                "/Instagram/Minimal/flore-verde-3.jpg",
+                "/Instagram/Minimal/flore-verde-4.jpg",
+                "/Instagram/Minimal/flore-verde-5.jpg",
+                "/Instagram/Minimal/flore-verde-6.jpg",
+                "/Instagram/Minimal/flore-verde-7.jpg",
+                "/Instagram/Minimal/flore-verde-8.jpg"
+            ]
+        },
+        {
+            id: 5,
+            name: "Luxury Dark",
+            bgClass: "bg-[#0C0A09]",
+            textClass: "text-[#FAFAF9]",
+            colors: ["#000000", "#D4D4D8", "#FFFFFF"],
+            fonts: {
+                heading: "Cinzel",
+                body: "Raleway",
+                headingClass: "font-cinzel",
+                bodyClass: "font-raleway"
+            },
+            logoPath: "/logos/luxury.svg",
+            description: "Exclusive and timeless.",
+            feedImages: [
+                "/Instagram/Luxury/flore-mujer-1.jpg",
+                "/Instagram/Luxury/flores-negras-1.jpg",
+                "/Instagram/Luxury/flores-negras-2.jpg",
+                "/Instagram/Luxury/flores-negras-4.jpg",
+                "/Instagram/Luxury/flores-negras-5.jpg",
+                "/Instagram/Luxury/flores-negras-6.jpg",
+                "/Instagram/Luxury/flores-negras-7.jpg",
+                "/Instagram/Luxury/flores-negras-8.jpg"
+            ]
         }
-    }
+    ];
 
     // Helper to get font class from name
     const getFontClass = (name, type) => {
@@ -138,17 +164,21 @@ const Dashboard = () => {
             'Lato': 'font-lato',
             'Open Sans': 'font-opensans',
             'Nunito': 'font-nunito',
-            'Raleway': 'font-raleway'
+            'Raleway': 'font-raleway',
+            'Source Serif 4': 'font-source-serif',
+            'Inter': 'font-inter'
         };
         return map[name] || (type === 'heading' ? 'font-serif' : 'font-sans');
     };
 
-    // Update current object with mapped classes for AI design
+    let designs = [...baseDesigns];
+
+
+
     const current = designs[selectedDesign];
-    if (current.id === 'ai') {
-        current.fonts.headingClass = getFontClass(current.fonts.heading, 'heading');
-        current.fonts.bodyClass = getFontClass(current.fonts.body, 'body');
-    }
+
+    // Safety check if current is undefined (shouldn't happen)
+    if (!current) return <div>Cargando...</div>;
 
     const fadeInUp = {
         initial: { opacity: 0, y: 20 },
@@ -180,24 +210,41 @@ const Dashboard = () => {
         const element = document.getElementById("brand-kit-export");
         if (!element) return;
 
-        // Temporarily make it visible for capture (but absolutely positioned off-screen or z-index handled if needed, 
-        // though strictly 'hidden' elements can't be captured by html2canvas, so we often move it off-screen)
+        // Temporarily make it visible for capture
         element.style.display = "flex";
+
+        // Wait for browser paint
+        await new Promise(resolve => setTimeout(resolve, 100));
 
         try {
             const canvas = await html2canvas(element, {
                 scale: 2, // High resolution
-                backgroundColor: null, // Transparent if needed, but we set bg class
-                useCORS: true // For images
+                backgroundColor: null,
+                useCORS: true,
+                logging: false
             });
 
-            const image = canvas.toDataURL("image/png");
-            const link = document.createElement("a");
-            link.href = image;
-            link.download = `Aura_Floral_BrandKit_${current.id}.png`;
-            link.click();
+            // Use Blob instead of toDataURL for better mobile support (prevents large string crashes)
+            canvas.toBlob((blob) => {
+                if (!blob) {
+                    console.error("Canvas export failed");
+                    return;
+                }
+                const url = URL.createObjectURL(blob);
+                const link = document.createElement("a");
+                link.href = url;
+                link.download = `Aura_Floral_BrandKit_${current.id}.png`;
+                document.body.appendChild(link); // Required for some mobile browsers
+                link.click();
+                document.body.removeChild(link);
+
+                // Cleanup memory
+                setTimeout(() => URL.revokeObjectURL(url), 1000);
+            }, 'image/png');
+
         } catch (err) {
             console.error("Export failed:", err);
+            alert("No se pudo generar la imagen. Por favor intenta de nuevo.");
         } finally {
             element.style.display = "none";
         }
@@ -253,8 +300,15 @@ const Dashboard = () => {
                 </footer>
             </div>
 
+            {/* App Branding Header */}
+            <header className="bg-white/80 backdrop-blur-md border-b border-border-subtle sticky top-0 z-20 px-6 py-4">
+                <div className="max-w-5xl mx-auto flex items-center space-x-3">
+                    <Logo />
+                </div>
+            </header>
+
             {/* Top Bar for Selection */}
-            <div className="bg-white border-b border-border-subtle sticky top-0 z-10 px-4 py-3 overflow-x-auto no-scrollbar">
+            <div className="bg-white border-b border-border-subtle z-10 px-4 py-3 overflow-x-auto no-scrollbar">
                 <div className="flex justify-center space-x-4 min-w-max mx-auto max-w-5xl">
                     {designs.map((design, idx) => (
                         <button
@@ -294,25 +348,29 @@ const Dashboard = () => {
                     </motion.header>
 
                     <div className="grid md:grid-cols-2 gap-8">
-                        {/* Logo Section */}
                         <motion.section
                             key={current.id + "logo"}
-                            className="bg-white/10 backdrop-blur-sm p-8 rounded-xl border border-current/10 shadow-sm flex flex-col items-center justify-center min-h-[300px]"
+                            className="bg-white/10 backdrop-blur-sm p-8 rounded-xl border border-current/10 shadow-sm flex flex-col items-center justify-center min-h-[400px]"
                             {...fadeInUp}
                             transition={{ delay: 0.2 }}
                         >
                             <h3 className="text-xs font-semibold uppercase tracking-wider opacity-60 mb-8 w-full text-center">Logo Propuesto</h3>
                             {current.logoSvg ? (
                                 <div
-                                    className="w-48 h-48 drop-shadow-sm transition-all duration-500 [&>svg]:w-full [&>svg]:h-full"
+                                    className="w-64 h-64 drop-shadow-sm transition-all duration-500 [&>svg]:w-full [&>svg]:h-full"
                                     dangerouslySetInnerHTML={{ __html: current.logoSvg }}
                                 />
                             ) : (
-                                <img
-                                    src={current.logoPath}
-                                    alt={`Logo ${current.name}`}
-                                    className="max-h-48 w-auto object-contain drop-shadow-sm transition-all duration-500"
-                                />
+                                <div className="w-64 h-64 flex items-center justify-center">
+                                    <img
+                                        src={current.logoPath}
+                                        alt={`Logo ${current.name}`}
+                                        className={cn(
+                                            "max-w-full max-h-full object-contain drop-shadow-sm transition-all duration-500",
+                                            current.id === 5 && "invert brightness-0"
+                                        )}
+                                    />
+                                </div>
                             )}
                         </motion.section>
 
@@ -370,20 +428,140 @@ const Dashboard = () => {
                         </motion.section>
                     </div>
 
+                    {/* Instagram Mockup Section */}
+                    <motion.section
+                        key={current.id + "social"}
+                        className="flex flex-col items-center justify-center pt-8"
+                        {...fadeInUp}
+                        transition={{ delay: 0.5 }}
+                    >
+                        <h3 className="text-xs font-semibold uppercase tracking-wider opacity-60 mb-8 w-full text-center">Visualización en Redes</h3>
+
+                        <div className="bg-white text-black w-full max-w-sm rounded-[32px] overflow-hidden shadow-2xl border border-gray-100 font-sans">
+                            {/* Insta Header */}
+                            <div className="px-5 pt-8 pb-4">
+                                <div className="flex justify-between items-center mb-4">
+                                    <div className="w-20 h-20 rounded-full p-[2px] bg-gradient-to-tr from-yellow-400 via-red-500 to-purple-500">
+                                        <div className="bg-white w-full h-full rounded-full p-[2px] overflow-hidden flex items-center justify-center">
+                                            <img src={current.logoPath} className="w-full h-full object-contain p-3" alt="Profile" />
+                                        </div>
+                                    </div>
+                                    <div className="flex space-x-6 text-center">
+                                        <div><div className="font-bold text-lg">125</div><div className="text-xs text-gray-500">Posts</div></div>
+                                        <div><div className="font-bold text-lg">4.2k</div><div className="text-xs text-gray-500">Followers</div></div>
+                                        <div><div className="font-bold text-lg">890</div><div className="text-xs text-gray-500">Following</div></div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div className="font-bold">Aura Floral Design</div>
+                                    <div className="text-xs text-gray-500">Florist</div>
+                                    <div className={cn("text-sm mt-1 leading-snug", current.fonts.bodyClass)}>
+                                        🌿 Arte floral y diseño botánico.<br />
+                                        ✨ {current.description}<br />
+                                        📍 Málaga, ES
+                                    </div>
+                                    <div className="mt-4 flex space-x-2">
+                                        <button className={cn("flex-1 py-1.5 rounded-lg text-sm font-semibold text-white", "transition-colors")} style={{ backgroundColor: current.colors[0] }}>
+                                            Follow
+                                        </button>
+                                        <button className="flex-1 py-1.5 rounded-lg border border-gray-300 text-sm font-semibold">Message</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* Highlights */}
+                            <div className="flex space-x-4 px-5 pb-4 overflow-x-auto no-scrollbar">
+                                {[
+                                    { name: 'Works', icon: Briefcase },
+                                    { name: 'Events', icon: Calendar },
+                                    { name: 'Shop', icon: ShoppingBag },
+                                    { name: 'Q&A', icon: MessageCircle }
+                                ].map((item, i) => (
+                                    <div key={i} className="flex flex-col items-center space-y-1 min-w-[60px]">
+                                        <div className="w-16 h-16 rounded-full border border-gray-200 p-1">
+                                            <div className="w-full h-full rounded-full bg-gray-50 flex items-center justify-center" style={{ backgroundColor: current.colors[i % current.colors.length] + '20' }}>
+                                                <item.icon className="w-6 h-6" style={{ color: current.colors[i % current.colors.length] }} />
+                                            </div>
+                                        </div>
+                                        <div className="text-xs">{item.name}</div>
+                                    </div>
+                                ))}
+                            </div>
+
+                            {/* Feed Grid */}
+                            <div className="grid grid-cols-3 gap-0.5 pb-8">
+                                {[...Array(9)].map((_, i) => (
+                                    <div key={i} className="aspect-square relative group overflow-hidden bg-gray-50">
+                                        {(() => {
+                                            const imgIndex = i > 4 ? i - 1 : i;
+                                            return i !== 4 && current.feedImages && current.feedImages[imgIndex] ? (
+                                                <img
+                                                    src={current.feedImages[imgIndex]}
+                                                    className="w-full h-full object-cover transition-all duration-500 hover:scale-110"
+                                                    alt="Feed post"
+                                                />
+                                            ) : (
+                                                <div
+                                                    className="w-full h-full transition-all duration-500 hover:scale-110 opacity-90"
+                                                    style={{
+                                                        backgroundColor: (current.id === 5 && i === 4)
+                                                            ? '#000000'
+                                                            : current.colors[i % current.colors.length]
+                                                    }}
+                                                />
+                                            );
+                                        })()}
+
+                                        {i === 4 && (
+                                            <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                                                <img src={current.logoPath} className={cn("w-1/3 h-1/3 object-contain opacity-50 mix-blend-multiply", current.id === 5 && "invert mix-blend-screen opacity-100")} alt="watermark" />
+                                            </div>
+                                        )}
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    </motion.section>
+
                     <motion.div
                         className="flex justify-center space-x-4 pt-8 pb-12"
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         transition={{ delay: 0.6 }}
                     >
-                        <Button variant="secondary" className="border-current text-current hover:bg-current/10" onClick={handleShare}>
-                            <Share2 className="mr-2 h-4 w-4" />
-                            Compartir
-                        </Button>
-                        <Button variant="secondary" className="border-current text-current hover:bg-current/10" onClick={handleDownload}>
-                            <Download className="mr-2 h-4 w-4" />
-                            Descargar Kit
-                        </Button>
+                        {(() => {
+                            // Determine button color (Primary for most, White for Luxury Dark to ensure visibility)
+                            const btnColor = current.id === 5 ? '#FFFFFF' : current.colors[0];
+
+                            return (
+                                <>
+                                    <Button
+                                        className="shadow-sm transition-all hover:opacity-75 border"
+                                        style={{
+                                            backgroundColor: 'transparent',
+                                            borderColor: btnColor,
+                                            color: btnColor
+                                        }}
+                                        onClick={handleShare}
+                                    >
+                                        <Share2 className="mr-2 h-4 w-4" />
+                                        Compartir
+                                    </Button>
+                                    <Button
+                                        className="shadow-sm transition-all hover:opacity-75 border"
+                                        style={{
+                                            backgroundColor: 'transparent',
+                                            borderColor: btnColor,
+                                            color: btnColor
+                                        }}
+                                        onClick={handleDownload}
+                                    >
+                                        <Download className="mr-2 h-4 w-4" />
+                                        Descargar Kit
+                                    </Button>
+                                </>
+                            );
+                        })()}
                     </motion.div>
 
                 </div>
